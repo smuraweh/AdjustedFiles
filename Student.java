@@ -7,7 +7,6 @@ public class Student {
     private String program;
     private String level;
     private String asurite;
-    public Node attendance; // need to write accessor and mutator functions, or may make public
 
     public Student(){ // constructor
         id = null;
