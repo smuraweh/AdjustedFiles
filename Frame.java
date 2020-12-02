@@ -3,6 +3,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 
 //implement TableModelListener
@@ -20,6 +21,7 @@ public class Frame extends JFrame implements MenuListener, ActionListener{
     private JScrollPane scroll;
     private Load loadObject = new Load(); // declare an object of Load class to call Load operations
     private Add addObject = new Add();
+    private Save saveObject = new Save();
 
     JFrame window;
     JTable table;
@@ -71,9 +73,11 @@ public class Frame extends JFrame implements MenuListener, ActionListener{
             //sample data for testing purposes
             //String fileContents[][] = {{"1214289933", "Samia", "Muraweh", "Computer Science", "Junior", "smuraweh"}, {"Test", "Test", "Test", "Test", "Test", "Test"}};
             //String column[] = {"ID", "First Name", "Last Name", "Program", "Level", "ASUrite"};
-            String[] column = {"ID", "First Name", "Last Name", "Program", "Level", "ASUrite"};
-            table = new JTable(fileContents, column);
-            table.setBounds(30, 40, 200, 300);
+        String[] column = {"ID", "First Name", "Last Name", "Program", "Level", "ASUrite"};
+            //table = new JTable(fileContents, column);
+        TableModel tblMod = new DefaultTableModel(column, 0);
+        table = new JTable(tblMod);
+        table.setBounds(30, 40, 200, 300);
         return table;
     }
 
@@ -96,6 +100,7 @@ public class Frame extends JFrame implements MenuListener, ActionListener{
             fileContents = new String[0][6];
         DefaultTableModel model = (DefaultTableModel)table.getModel();
         model.setDataVector(fileContents, column);
+        model.fireTableDataChanged();
         //model.fireTableDataChanged();
         //fireTableChanged();
     }
@@ -106,8 +111,9 @@ public class Frame extends JFrame implements MenuListener, ActionListener{
 
     public void actionPerformed(ActionEvent e){
         if(e.getSource() == load){
-            studentArray = loadObject.loadRoster();
-            refresh(studentArray);
+            Student[] sArray = loadObject.loadRoster();
+            refresh(sArray);
+            studentArray = sArray;
             //JTable newTable = createTable();
             //scroll.remove(table);
             //scroll.add(newTable);

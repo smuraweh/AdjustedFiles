@@ -12,10 +12,10 @@ import java.util.Scanner;
 
 public class Load {
 
-	private Student studArray[];
+	private Student[] studArray;
 
 	public Student[] loadRoster() {
-LinkedList<Student> students = new LinkedList<>(); 
+//LinkedList<Student> students = new LinkedList<>();
 		
 		JButton open = new JButton();
 		JFileChooser fc = new JFileChooser();
@@ -29,28 +29,36 @@ LinkedList<Student> students = new LinkedList<>();
 		//System.out.println(fc.getSelectedFile().getAbsolutePath());
 
 		String path = fc.getSelectedFile().getAbsolutePath();
-		String line = null;
 		try {
 			BufferedReader reader = new BufferedReader(new FileReader(path));
+			try {
+				BufferedReader iterator = new BufferedReader(new FileReader(path));
 
+			int lineCount = 0;
+
+			while(iterator.readLine() != null)
+				lineCount++;
+
+			String line = null;
+			int n = 0;
+			studArray = new Student[lineCount];
 			while((line = reader.readLine()) != null) {
 				String inputData[] = line.split(",");
-				int count = inputData.length;
+				//int count = inputData.length;
+				//int numItems = count/6;
 				int i = 0;
-				int n = 0;
-				while(i < count%6) {
-					Student newStudent = new Student();
-					newStudent.setID(inputData[i]);
-					newStudent.setFirst(inputData[i+1]);
-					newStudent.setLast(inputData[i+2]);
-					newStudent.setProg(inputData[i+3]);
-					newStudent.setLevel(inputData[i+4]);
-					newStudent.setASUrite(inputData[i+5]);
+//				int n = 0;
+				// while(i < numItems) {
+				Student newStudent = new Student();
+				newStudent.setID(inputData[i]);
+				newStudent.setFirst(inputData[i+1]);
+				newStudent.setLast(inputData[i+2]);
+				newStudent.setProg(inputData[i+3]);
+				newStudent.setLevel(inputData[i+4]);
+				newStudent.setASUrite(inputData[i+5]);
 
-					studArray[n] = newStudent;
-					n++;
-					i = i + 6;
-				}
+				studArray[n] = newStudent;
+				n++;
 			}
 			/*if ((line = reader.readLine()) != null) {
 				Scanner scan = new Scanner(line).useDelimiter(",");
@@ -83,16 +91,14 @@ LinkedList<Student> students = new LinkedList<>();
 					}
 					scan2.close();
 					//return studArray;
-				}
+				}*/
 			}catch(FileNotFoundException a) {
 				System.out.println("File not found.");
 			}catch(IOException a) {
 				System.out.println("Error.");
-			}*/
+			}
 		}catch(FileNotFoundException a) {
 			 System.out.println("File not found.");
-		}catch(IOException a) {
-			 System.out.println("Error.");
 		}
 		return studArray;
 	}
